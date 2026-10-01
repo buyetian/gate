@@ -2,7 +2,7 @@
 """
 VPN Gate SSTP 节点检测流水线
 ============================
-流程:
+流程1:
   1. 获取 VPN Gate 原始节点 (官方 api/iphone CSV, 失败时回退 GitHub 预解析镜像)
   2. 只保留「带 TCP 入口」的中继 = SSTP 可用节点
      (OpenVPN 配置里 proto tcp + remote <ip> <port>; UDP-only 中继无法走 SSTP/xray 链, 直接丢弃)
@@ -51,7 +51,7 @@ VPNGATE_MIRROR = os.environ.get(
     "https://raw.githubusercontent.com/fdciabdul/Vpngate-Scraper-API/main/json/data.json",
 )
 # 已部署的 Cloudflare Worker 检测接口 (GET /check?proxyip=host:port, 实测确认)
-WORKER_CHECK_URL = os.environ.get("CHECK_WORKER", "https://ch.helei.kdns.fr/check?sstp=vpn:vpn@")
+WORKER_CHECK_URL = os.environ.get("CHECK_WORKER", "https://jiakuan.buyetian.dpdns.org/check?sstp=vpn:vpn@")
 CONCURRENCY = max(1, int(os.environ.get("CHECK_CONCURRENCY", "32")))   # 与 Worker 网页端一致的并发模型
 CHECK_TIMEOUT = float(os.environ.get("CHECK_TIMEOUT", "90"))          # 单请求客户端超时 (秒)
 MAX_CHECK_NODES = int(os.environ.get("MAX_CHECK_NODES", "0"))         # 0=不限; 本地测试可设小值
@@ -460,8 +460,8 @@ EDGE_HOSTS = [
     h.strip()
     for h in os.environ.get(
         "EDGE_HOSTS",
-        "www.5199dy.com:443,hzytjy.cn:443,ali.nonull.pp.ua:443,auto.dolby.dpdns.org:443,"
-        "cdn.cnno.de:443,saas.sin.fan:443,cf.1o.ee:443",
+        "mail.notion.com:443,staticdelivery.nexusmods.com:443,api-scout.reflexapi.net:443,images.chesscomfiles.com:443,cnllm.com:443,saas.072159.xyz:443,hzytjy.cn:443,ali.nonull.pp.ua:443,auto.dolby.dpdns.org:443,"
+        "cdn.cnno.de:443,saas.sin.fan:443,cf.777791.xyz:443",
     ).split(",")
     if h.strip()
 ]
@@ -522,8 +522,8 @@ def build_hosts_text(data):
 
 
 # edgetunnel 完整订阅 (vless://) 配置
-EDT_UUID = os.environ.get("EDT_UUID", "a664b457-d1aa-4671-bcdd-ad2eb31414ec")
-EDT_DOMAIN = os.environ.get("EDT_DOMAIN", "xi.xiaohe.gv.uy")
+EDT_UUID = os.environ.get("EDT_UUID", "99965caa-7242-4bf2-b591-91bb01a9c0a8")
+EDT_DOMAIN = os.environ.get("EDT_DOMAIN", "jiakuan0.buyetian.dpdns.org")
 EDT_FINGERPRINT = os.environ.get("EDT_FINGERPRINT", "chrome")
 SUB_URL = os.environ.get("SUB_URL", "https://jerylihub.github.io/gate/sub.txt")
 
